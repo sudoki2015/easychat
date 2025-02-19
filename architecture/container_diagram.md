@@ -1,8 +1,8 @@
 
-## C4 Context Diagram чата с офлайн-режимом
+## C4 Container Diagram чата с офлайн-режимом
 
 ```mermaid
-%% C4 Container Diagram: Чат с офлайн-режимом (с учетом веб и мобильных браузеров и всех требований)
+%% C4 Container Diagram: Чат с офлайн-режимом (с учетом веб и мобильных браузеров, и всех требований)
 
 C4Container
     title Чат с офлайн-режимом: Контейнерная диаграмма с учетом всех требований
@@ -18,6 +18,7 @@ C4Container
         Container(pushService, "Push сервис", "Web Push", "Отправка уведомлений о новых сообщениях")
         Container(encryptionService, "Сервис шифрования", "Go", "Шифрование сообщений (AES), безопасность данных на сервере и в передаче")
         Container(indexedDB, "IndexedDB", "LocalStorage API", "Локальное хранилище данных для офлайн-режима (история сообщений, чаты)")
+        Container(emailService, "Сервис отправки электронных писем", "Go", "Отправка письма с подтверждением регистрации")
     }
 
     Person(webUser, "Пользователь (веб-браузер)", "Использует веб-браузер для доступа к чату")
@@ -38,6 +39,8 @@ C4Container
     Rel(webApp, pushService, "Отправка уведомлений о новых сообщениях", "Web Push")
     Rel(apiServer, encryptionService, "Шифрование сообщений", "HTTP API")
     Rel(webApp, indexedDB, "Сохранение данных офлайн", "IndexedDB API")
+    Rel(apiServer, emailService, "Отправка письма с подтверждением регистрации", "SMTP")
+    Rel(emailService, user, "Отправка письма пользователю", "SMTP")
 
     System_Ext(externalSystem, "Внешняя система", "Интеграция для синхронизации сообщений и резервного копирования")
     Rel(apiServer, externalSystem, "Интеграция с внешними сервисами", "HTTP/HTTPS")
